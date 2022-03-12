@@ -4,10 +4,11 @@ import { useRecoilValue } from "recoil";
 import Listings from "./Listings";
 import data from "@data/estate-listings.json";
 import ErrorInfo from "@components/fallback/ErrorInfo";
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { ListingsType, ListingType } from "@interfaces/listings.type";
 import ReactPaginate from "react-paginate";
-import ListingDrawer from "./ListingDrawer";
+import Loader from "@components/fallback/Loader";
+const ListingDrawer = lazy(() => import("./ListingDrawer"));
 
 const ITEMSPERPAGE = 20;
 
@@ -56,11 +57,14 @@ export default function Listing() {
         Listings
       </Text>
       <Box mt="8">
-        <ListingDrawer
-          isOpen={isDrawerOpen}
-          onClose={onDrawerClose}
-          user={user}
-        />
+        <Suspense fallback={<Loader />}>
+          <ListingDrawer
+            isOpen={isDrawerOpen}
+            onClose={onDrawerClose}
+            user={user}
+          />
+        </Suspense>
+
         {currentItems.length ? (
           currentItems.map((list) => (
             <Listings

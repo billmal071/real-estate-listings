@@ -9,7 +9,6 @@ import {
 import ContactModal from "@components/contact/ContactModal";
 import { ListingType } from "@interfaces/listings.type";
 import { Fragment, useState } from "react";
-import ListingDrawer from "./ListingDrawer";
 
 export type ListingsProps = {
   id: string;
